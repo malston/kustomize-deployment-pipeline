@@ -1,4 +1,4 @@
-# RGS Kubernetes Deployment
+# Spring Cloud Config Service Kubernetes Deployment
 
 ## Prerequisites
 

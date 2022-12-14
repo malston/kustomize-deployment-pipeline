@@ -135,7 +135,8 @@ create_registry_secret "${REGISTRY_SERVER}" "${REGISTRY_USERNAME}" "${REGISTRY_P
 create_git_ssh_key "configserver-git" "apps/${APP}/overlays/${ENV}" "config_server_deploy_key.rsa" "known_hosts" "${ENV}"
 
 if [[ $DRY_RUN ]]; then
-    kustomize build "apps/${APP}/overlays/${ENV}/"
+    # kustomize build "apps/${APP}/overlays/${ENV}/"
+    kubectl --dry-run=client apply -k "apps/${APP}/overlays/${ENV}/" -oyaml
     exit 0
 fi
 

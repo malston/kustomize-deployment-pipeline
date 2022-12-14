@@ -1,8 +1,0 @@
----
-apiVersion: projectcontour.io/v1
-kind: HTTPProxy
-metadata:
-  name: configserver-httpproxy
-spec:
-  virtualhost:
-    fqdn: configserver.everi.com

@@ -12,6 +12,7 @@ namePrefix: dev-
 patchesStrategicMerge:
 - deployment.yaml
 - httpproxy.yaml
+- secret.yaml
 
 images:
 - digest: sha256:790676bf7397371ce032fbe9c41c33588795ef88477687fd96bfee1e71eb2841

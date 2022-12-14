@@ -54,14 +54,8 @@ function create_git_ssh_key() {
   local path="${2}"
   local private_key="${3}"
   local known_hosts="${4}"
-  local namespace="${5}"
-
-  # if kubectl get secret "$name" --namespace="$namespace" &>/dev/null; then
-  #   kubectl delete secret "$name" --namespace="$namespace"
-  # fi
 
   kubectl create secret generic "$name" \
-      --namespace="$namespace" \
       --from-file=privateKey="${path}/${private_key}" \
       --from-file=known_hosts="${path}/${known_hosts}" \
       --dry-run=client -oyaml > "${path}/secret.yaml"

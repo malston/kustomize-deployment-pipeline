@@ -1,0 +1,10 @@
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: config-service-httpproxy
+spec:
+  virtualhost:
+    fqdn: api4.everi.com
+    tls:
+      secretName: config-service-tls

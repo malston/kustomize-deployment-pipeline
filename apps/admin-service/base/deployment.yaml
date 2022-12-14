@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: '/actuator/prometheus'
+        prometheus.io/port: '80'
+        prometheus.io/scrape: 'true'
+    spec:
+      containers:
+      - name: config-service
+        image: azltandevacr.azurecr.io/rgs-server-config-service
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        env:
+        - name: decryptionKey
+          valueFrom:
+            secretKeyRef:
+              name: machineKey
+              key: decryptionKey
+        - name: validationKey
+          valueFrom:
+            secretKeyRef:
+              name: machineKey
+              key: validationKey

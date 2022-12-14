@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+namePrefix: dev-
+
+patchesStrategicMerge:
+- deployment.yaml
+- httpproxy.yaml
+
+namespace: dev
+
+commonLabels:
+  version: 1001.dev
+
+images:
+- digest: sha256:b8e8381425a8c41fac462a4981a6c4ae1f856e797cc14cf22373d692c90ac95e
+  name: azltandevacr.azurecr.io/config-service

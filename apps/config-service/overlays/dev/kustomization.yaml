@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dev
+
+resources:
+- ../../base
+- namespace.yaml
+- secret.yaml
+
+namePrefix: dev-
+
+patchesStrategicMerge:
+- deployment.yaml
+- httpproxy.yaml
+
+images:
+- digest: sha256:790676bf7397371ce032fbe9c41c33588795ef88477687fd96bfee1e71eb2841
+  name: config-service
+  newName: malston538/config-service
+
+configMapGenerator:
+- name: configserver-git
+  literals:
+  - uri=git@github.com:malston/spring-config-server-on-kubernetes.git
+  options:
+    disableNameSuffixHash: true
+
+secretGenerator:
+- name: image-pull-secret
+  files:
+    - .dockerconfigjson=dockerconfig.json
+  type: kubernetes.io/dockerconfigjson
+  options:
+    disableNameSuffixHash: true

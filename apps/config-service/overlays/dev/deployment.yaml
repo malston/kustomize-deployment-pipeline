@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-service
+spec:
+  replicas: 2
+  template:
+    spec:
+      serviceAccountName: rgs-sa
+      containers:
+        - name: config-service
+          image: config-service

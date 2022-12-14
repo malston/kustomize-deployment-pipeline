@@ -1,0 +1,7 @@
+*.rsa
+*.rsa.pub
+*.envrc
+*.env
+dockerconfig.json
+secret.*
+known_hosts

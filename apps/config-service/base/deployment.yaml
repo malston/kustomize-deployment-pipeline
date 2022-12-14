@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: '/actuator/prometheus'
+        prometheus.io/port: '80'
+        prometheus.io/scrape: 'true'
+    spec:
+      serviceAccountName: rgs-sa
+      containers:
+        - name: config-service
+          image: config-service
+          imagePullPolicy: Always
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "100m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          # override config server privateKey in application.yml
+          env:
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_PRIVATEKEY
+              valueFrom:
+                secretKeyRef:
+                  name: configserver-git
+                  key: privateKey
+                  optional: false
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: configserver-git
+                  key: uri
+                  optional: false
+          ports:
+            - containerPort: 8888
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8888
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8888
+            initialDelaySeconds: 70
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3

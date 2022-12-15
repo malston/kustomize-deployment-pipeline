@@ -7,20 +7,12 @@ Install the following tools
 - [pack](https://github.com/buildpacks/pack)
 - [kustomize](https://kustomize.io/)
 
-## Build/Run locally
-
-Deploy the app using `kubectl`:
-
-```sh
-git clone git@github.com:Everi-Digital/rgs-kubernetes.git
-cd rgs-kubernetes/apps
-kubectl apply -k apps/config-service/overlays/dev/
-```
+## Build/Test
 
 Build the app using `pack`:
 
 ```sh
-git clone https://github.com/everi/config-service.git ../config-service
+git clone git@github.com:malston/spring-config-server-on-kubernetes.git ../config-service
 cd ../config-service
 pack build applications/maven
 ```
@@ -37,6 +29,15 @@ curl -s http://localhost:8080/actuator/health | jq .
 ```sh
 docker tag applications/maven:latest azltandevacr.azurecr.io/rgs-server-config-service:0.0.1
 docker push azltandevacr.azurecr.io/rgs-server-config-service:0.0.1
+```
+
+## Deploy
+
+Deploy the app using `kubectl`:
+
+```sh
+git clone https://github.com/malston/kustomize-deployment-pipeline.git && cd $_
+./scripts/deploy.sh apply config-service dev
 ```
 
 ## Update the digest reference on production image

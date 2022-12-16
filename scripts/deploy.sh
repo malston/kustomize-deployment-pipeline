@@ -25,6 +25,12 @@ function create_registry_secret() {
   local password="${3}"
   local config_file="${4}"
 
+  if [[ -z $server ]]; then
+      echo -n "Enter registry server: "
+      read -r server
+      echo
+  fi
+
   if [[ -z $username ]]; then
       echo -n "Enter registry username for $server: "
       read -r username
